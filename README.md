@@ -1,20 +1,72 @@
 # Machine learning college class project
+---
 
-Obecné zadání zápočtu:
-Google Colab dokument (kód, grafické výstupy, např. ve formě tabulek, a nějaký text pro zhodnocení - čili vysvětlení kódu/postupu - kód umět vysvětlit i ústně při zkoušce),
-Zadání (jaký typ úlohy strojového učení děláme a popis problému jako takového),
-Dataset:
-Vybereme / Vytvoříme si dataset,
-Dataset vyčištíme (popsat, kolik jsme toho odstranili, jak jsme dataset modifikovali, ...),
-Datset statisticky popíšeme (outliers jsou/nejsou, datové typy, popisná statistika, co znamenají sloupečky, distribuce dat, náš názor, ...),
-,
+# 🧠 BioClinicalBERT pro Analýzu Dlouhých Českých Diagnóz
 
-Vybrat si baseline model = model nebo skupina modelů, od kterých se odpíchneme a udělat vlastní/lepší model (metrika - např. F1 skóre, tuning hyperparametrů, ...).
-Pak udělat report o tom, jak se model zlepšil - výstupy metrik (accurracy, ...), čas pro naučení (inference, ...) - ve zkratce porovnání modelů.
-Udělat analýzu problémových vzorků (jaké modely na ně fungujou/nefungujou, čím je to způsobené, ...)
+Tento projekt demonstruje použití předtrénovaného modelu **BioClinicalBERT** pro **analýzu sentimentu** a **vizualizaci embeddingů** u synteticky generovaných **českých lékařských diagnóz**.
 
-BONUS (nepovinné): Citlivostní analýza regresorů
-Zkouška:
-odevzdat předem zápočet, aby si mohl před zkouškou projít,
-teoretické otázky (princip neuronových sítí, nakreslete mi aktivační funkce, ...),
-Pokud se účastníme Hackithonu a budeme mít úlohu na strojové učení, nemusíme zápočet dělat a uzná nám úlohu z Hackithonu, pokud se budeme aktivně účastnit
+## 🧪 Cíle projektu
+
+* Přeložit dlouhé české lékařské zprávy do angličtiny.
+* Získat embeddingy pomocí modelu `emilyalsentzer/Bio_ClinicalBERT`.
+* Zobrazit embeddingy ve 2D prostoru pomocí PCA.
+* Klasifikovat sentiment (pozitivní, negativní, neutrální) pomocí logistické regrese.
+* Porovnat predikce s očekávanými štítky a vyhodnotit výkon modelu.
+* Vytvořit numerické skóre sentimentu (+1, 0, -1).
+
+## 🧰 Použité technologie
+
+* 📦 `transformers`, `torch` – práce s BERT modelem
+* 🧠 `scikit-learn` – PCA, LabelEncoder, klasifikace, metriky
+* 📊 `matplotlib`, `pandas` – vizualizace a přehled výstupů
+* 🌐 `deep-translator` – překlad českých textů do angličtiny
+
+## 🧬 Struktura kódu
+
+1. **Datová příprava**
+
+   * Generování 20-větných odstavců pro každou třídu (pozitivní, negativní, neutrální).
+   * Překlad pomocí `GoogleTranslator`.
+
+2. **Embeddingy**
+
+   * Použití BERTu pro získání vektorové reprezentace každého přeloženého textu.
+   * Výběr CLS tokenu jako embedding.
+
+3. **Vizualizace**
+
+   * Redukce dimenzionality pomocí PCA.
+   * Barevné rozlišení dle sentimentu.
+
+4. **Klasifikace**
+
+   * Trénink `LogisticRegression` na embeddingech.
+   * Výstup klasifikační zprávy (`classification_report`).
+
+5. **Skórování**
+
+   * Převod tříd na numerické skóre: +1 (pozitivní), 0 (neutrální), -1 (negativní).
+   * Uložení dat do tabulky (`pandas.DataFrame`).
+
+## 📈 Ukázka výstupu
+
+* Graf: PCA projekce embeddingů do 2D prostoru.
+* Tabulka: původní české diagnózy, překlad, skóre, predikce.
+* Klasifikační report s přesností, recall a F1 skóre.
+
+## 📝 Poznámky
+
+* Diagnózy jsou **synteticky generované** a neodpovídají reálným datům.
+* Projekt slouží pouze k **testování použitelnosti BioBERTu** pro český lékařský jazyk.
+
+## 📁 Spuštění
+
+1. Nainstaluj závislosti:
+
+   ```bash
+   pip install transformers torch deep-translator scikit-learn
+   ```
+
+2. Spusť skript (`.ipynb` nebo `.py`) a sleduj výstupy.
+
+---
